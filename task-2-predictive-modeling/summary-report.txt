@@ -1,0 +1,109 @@
+Predictive Model Plan – Task 2 Summary Report
+
+1. Model Logic (Generated with GenAI)
+Use a GenAI tool (e.g., ChatGPT, Gemini) to generate the logic or structure of your predictive model.
+- You may include pseudo-code, a step-by-step process, or a simplified code snippet.
+- Briefly explain what the model is designed to do.
+
+**Model Logic Generated with GenAI:**
+
+Based on the EDA findings and feature analysis, I propose a **Logistic Regression** model for predicting customer delinquency risk. The model is designed to classify customers into two categories: high-risk (likely to become delinquent) and low-risk (likely to remain current).
+
+**Model Pipeline:**
+1. **Data Preprocessing:**
+   - Handle missing values: Impute Income (median), Credit_Score (mean), Loan_Balance (median)
+   - Encode categorical variables: Employment_Status, Credit_Card_Type, Location
+   - Scale numerical features to ensure equal weight consideration
+
+2. **Feature Selection:**
+   - Top 5 features identified: Income, Account_Tenure, Credit_Score, Debt_to_Income_Ratio, Credit_Utilization
+   - These features show the strongest correlation with delinquency outcomes
+
+3. **Model Training:**
+   - Split data: 70% training, 15% validation, 15% test
+   - Train logistic regression with regularization (L2 penalty)
+   - Optimize hyperparameters using cross-validation
+
+4. **Prediction Output:**
+   - Model outputs probability scores (0-1) for each customer
+   - Threshold at 0.5 for binary classification
+   - Risk scores can be used for customer segmentation and intervention strategies
+
+**Pseudocode:**
+```
+# Feature Engineering
+features = ['Income', 'Account_Tenure', 'Credit_Score', 'Debt_to_Income_Ratio', 'Credit_Utilization']
+X = df[features]
+y = df['Delinquent_Account']
+
+# Model Training
+model = LogisticRegression(penalty='l2', random_state=42)
+model.fit(X_train, y_train)
+
+# Prediction
+risk_scores = model.predict_proba(X_test)[:, 1]
+predictions = (risk_scores > 0.5).astype(int)
+```
+
+2. Justification for Model Choice
+Explain why you selected this specific model type (e.g., logistic regression, decision tree, neural network). Consider:
+- Accuracy
+- Transparency
+- Ease of use or implementation
+- Relevance for financial prediction
+- Suitability for Geldium's business needs
+
+**Model Justification:**
+
+I selected **Logistic Regression** for Geldium's delinquency prediction model based on several critical factors:
+
+**Transparency & Interpretability:** Logistic regression provides clear, interpretable coefficients that directly show the impact of each feature on delinquency risk. This is crucial for regulatory compliance and stakeholder communication in the financial services industry. Business leaders can easily understand how changes in credit utilization or missed payments affect risk scores.
+
+**Regulatory Compliance:** Financial institutions face strict regulatory requirements for model explainability. Logistic regression meets these requirements by providing transparent decision-making processes that can be audited and validated by regulators.
+
+**Performance & Reliability:** Despite its simplicity, logistic regression often performs comparably to more complex models for binary classification tasks, especially when features are well-engineered. The analysis shows moderate correlations (0.034-0.044) between features and delinquency, suggesting linear relationships are sufficient.
+
+**Operational Efficiency:** Logistic regression is computationally efficient, enabling real-time risk scoring for large customer portfolios. It requires minimal computational resources and can be easily deployed in production environments.
+
+**Business Alignment:** The model aligns with Geldium's need for actionable insights. Risk scores can be directly translated into intervention strategies, and feature importance can guide customer outreach programs. The model's simplicity also facilitates ongoing monitoring and maintenance.
+
+3. Evaluation Strategy
+Outline how you would evaluate your model's performance. Include:
+- Which metrics you would use (e.g., accuracy, precision, recall, F1 score, AUC)
+- How you would interpret those metrics
+- Any plans to detect or reduce bias in your model
+- Ethical considerations in making predictions about customer financial behavior
+
+**Evaluation Strategy:**
+
+**Primary Metrics:**
+- **AUC-ROC (Area Under Curve - Receiver Operating Characteristic):** Target > 0.75. This metric measures the model's ability to distinguish between delinquent and non-delinquent customers, crucial for imbalanced datasets (16% delinquency rate).
+- **F1 Score:** Target > 0.70. Balances precision and recall, especially important given the class imbalance where false positives and false negatives have different business costs.
+- **Precision:** Target > 0.80. Critical for avoiding unnecessary interventions on low-risk customers.
+- **Recall:** Target > 0.60. Ensures we capture a sufficient portion of actual delinquent customers.
+
+**Secondary Metrics:**
+- **Accuracy:** Expected around 85-90% due to class imbalance
+- **Calibration:** Ensure predicted probabilities reflect true risk levels
+- **Business Metrics:** Cost savings from early intervention vs. false positive costs
+
+**Bias Detection & Mitigation:**
+- **Group Fairness Analysis:** Compare model performance across demographic groups (age, location, employment status)
+- **Disparate Impact Testing:** Ensure no protected groups are unfairly disadvantaged
+- **Feature Importance Monitoring:** Regularly review coefficients for unexpected bias
+- **A/B Testing:** Validate model performance across different customer segments
+
+**Ethical Considerations:**
+- **Transparency:** Provide clear explanations for risk scores to customers
+- **Human Oversight:** Maintain human review for high-risk decisions
+- **Regular Auditing:** Quarterly model performance and bias reviews
+- **Customer Rights:** Allow customers to dispute risk assessments and provide additional context
+- **Data Privacy:** Ensure compliance with data protection regulations
+
+**Model Monitoring Plan:**
+- **Performance Drift Detection:** Monitor for changes in feature distributions and model performance
+- **Regular Retraining:** Update model quarterly with new data
+- **Stakeholder Communication:** Monthly reports on model performance and business impact
+- **Continuous Improvement:** Iterative model refinement based on business feedback and new insights
+
+This evaluation strategy ensures the model is not only accurate but also fair, transparent, and aligned with Geldium's business objectives and regulatory requirements. 

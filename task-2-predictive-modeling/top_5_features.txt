@@ -1,0 +1,6 @@
+Top 5 Features for Delinquency Prediction:
+Income: Correlation = 0.044
+Account_Tenure: Correlation = 0.040
+Credit_Score: Correlation = 0.035
+Debt_to_Income_Ratio: Correlation = 0.034
+Credit_Utilization: Correlation = 0.034

@@ -1,0 +1,9 @@
+Notable missing or inconsistent data:
+              MissingCount  MissingPercent
+Income                  39             7.8
+Credit_Score             2             0.4
+Loan_Balance            29             5.8
+
+Key anomalies (see outlier_summary.csv for details)
+
+Early indicators of delinquency risk (see risk_correlations.csv and top_predictors.txt)

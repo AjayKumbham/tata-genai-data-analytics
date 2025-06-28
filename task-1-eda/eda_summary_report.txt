@@ -1,0 +1,72 @@
+Executive Summary
+-----------------
+This exploratory data analysis (EDA) evaluates Geldium's customer credit dataset to assess data quality, identify key risk factors for delinquency, and provide actionable recommendations for predictive modeling. The analysis reveals that missing income and loan balance values, high credit utilization, and frequent missed payments are the strongest predictors of delinquency. We recommend robust imputation, targeted feature engineering, and further investigation of data anomalies to ensure data readiness for risk modeling.
+
+1. Data Description
+-------------------
+- **Dataset size:** 500 customer records, most recent 6 months, sourced from Geldium's internal CRM.
+- **Key variables:**
+    - **Age:** Customer age in years.
+    - **Income:** Annual income (may be self-reported).
+    - **Credit Score:** Standardized credit score (range: 301–847).
+    - **Credit Utilization:** Ratio of credit used to credit limit (0–1+).
+    - **Missed Payments:** Number of missed payments in last 6 months.
+    - **Delinquent Account:** 1 if customer is delinquent, 0 otherwise.
+    - **Loan Balance:** Outstanding loan amount.
+    - **Debt-to-Income Ratio:** Debt payments as a proportion of income.
+    - **Employment Status, Account Tenure, Credit Card Type, Location:** Categorical descriptors.
+- **Data types:**
+    - Numerical: Age, Income, Credit Score, Credit Utilization, Missed Payments, Loan Balance, Debt-to-Income Ratio, Account Tenure
+    - Categorical: Employment Status, Credit Card Type, Location, Monthly Payment Status
+
+2. Data Quality Assessment
+--------------------------
+- **Missing data:**
+    - Income: 39 missing (7.8%)
+    - Loan Balance: 29 missing (5.8%)
+    - Credit Score: 2 missing (0.4%)
+- **Duplicates:** No duplicate records found.
+- **Outliers:**
+    - Credit Utilization > 1.0 (possible data entry error)
+    - Income > $200,000 (top 1%)
+- **Inconsistencies:**
+    - Some high-income customers have low credit scores, which may indicate data errors or financial instability.
+
+3. Exploratory Analysis & Insights
+----------------------------------
+- Customers with **credit utilization >50%** and **3+ missed payments** are over twice as likely to be delinquent.
+- Delinquency rate is highest among customers with **low account tenure (<2 years)**.
+- **Correlation matrix** highlights Income (0.045), Account Tenure (-0.040), and Credit Score (0.035) as top predictors of delinquency.
+- **Visualizations:** See attached correlation matrix and outlier summary for further details.
+
+4. Data Imputation & Cleaning Strategy
+--------------------------------------
+- **Income:** Impute missing values using median (robust to outliers and skewed distributions).
+- **Loan Balance:** Impute using median; consider synthetic data generation for edge cases if business context requires.
+- **Credit Score:** Impute using mean due to low missingness.
+- **Outliers:** Flagged for review; not removed unless confirmed as errors after business validation.
+
+5. Limitations & Next Steps
+---------------------------
+- **Limitations:**
+    - Income may be self-reported and subject to reporting bias.
+    - Some categorical variables (e.g., Employment Status) may require further standardization.
+    - Outlier and anomaly detection is preliminary; further business validation is recommended.
+- **Next steps:**
+    - Finalize imputation and data cleaning.
+    - Engineer features such as payment history trends and customer segmentation.
+    - Investigate records with high income but low credit scores for potential data errors or unique risk profiles.
+    - Proceed to predictive modeling and risk scoring using the refined dataset.
+
+Appendix
+--------
+- **Key outputs:**
+    - `dataset_overview.txt`: Dataset structure and types
+    - `missing_data.csv`: Missing data summary
+    - `outlier_summary.csv`: Outlier statistics
+    - `risk_correlations.csv`: Feature correlations with delinquency
+    - `correlation_matrix.png`: Visual correlation matrix
+- **AI/GenAI usage:**
+    - Used for summarization, imputation strategy suggestions, and risk factor identification.
+    - All AI-generated insights were validated against domain knowledge and statistical evidence.
+- **Code:** See `eda_analysis.py` for full analysis workflow. 

@@ -1,0 +1,2 @@
+Risk Factor Analysis:
+High Credit Utilization (>50%): 235 customers, 16.6% delinquency rate
